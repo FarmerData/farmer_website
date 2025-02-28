@@ -13,35 +13,37 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// Form Submission
-document.getElementById("farmerForm").addEventListener("submit", function(e) {
-    e.preventDefault();
+// Handle form submission
+document.getElementById("farmerForm").addEventListener("submit", (event) => {
+    event.preventDefault();
 
+    // Get input values
     let name = document.getElementById("name").value;
     let location = document.getElementById("location").value;
     let crop = document.getElementById("crop").value;
 
-    // Add a new document with an auto-generated ID
+    // Add to Firestore
     db.collection("farmers").add({
         name: name,
         location: location,
-        crop: crop
-    }).then((docRef) => {
-        alert("Data Saved! Farmer ID: " + docRef.id);
-        document.getElementById("farmerForm").reset();
-        loadFarmers(); // Reload data
+        crop: crop,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+        alert("Data submitted successfully!");
+        document.getElementById("farmerForm").reset(); // Clear form
     }).catch((error) => {
-        console.error("Error: ", error);
+        console.error("Error adding document: ", error);
     });
 });
 
-// Load Farmers Data from Firestore
+// Fetch and display farmers data
 function loadFarmers() {
-    document.getElementById("dataTable").innerHTML = "";
-    db.collection("farmers").get().then((querySnapshot) => {
+    document.getElementById("dataTable").innerHTML = ""; // Clear table before loading
+
+    db.collection("farmers").orderBy("timestamp", "desc").get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             let data = doc.data();
-            let farmerId = doc.id; // Get unique ID
+            let farmerId = doc.id; // Unique Firestore ID
 
             document.getElementById("dataTable").innerHTML += `
                 <tr>
@@ -52,8 +54,11 @@ function loadFarmers() {
                 </tr>
             `;
         });
+    }).catch((error) => {
+        console.error("Error fetching documents: ", error);
     });
 }
 
-// Load data on page load
+// Call function to load data when page loads
 window.onload = loadFarmers;
+
