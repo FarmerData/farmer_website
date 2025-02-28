@@ -63,100 +63,76 @@
         const db = getFirestore(app);
         const analytics = getAnalytics(app);
 
-        // Function to load content dynamically
-        function loadContent(page) {
-            const contentSection = document.getElementById('content-section');
-            
-            if (page === 'about') {
-                contentSection.innerHTML = `
-                    <h2>About Us</h2>
-                    <p>At Farm Support, we are dedicated to helping farmers access the resources they need to improve their productivity. Our platform connects farmers with the right mechanization services tailored to their needs, ensuring sustainable and efficient farming practices.</p>
-                    <h3>Our Mission</h3>
-                    <p>Our mission is to provide farmers with the tools, support, and resources they need to thrive in a modern agricultural landscape. We are committed to improving the efficiency and productivity of farmers while fostering sustainable practices.</p>
-                `;
-            } else if (page === 'register') {
-                contentSection.innerHTML = `
-                    <h2>Farmer Registration</h2>
-                    <p>Please fill in the form below to register:</p>
-                    <form id="farmerForm">
-                        <div class="form-group">
-                            <label for="farmerName">Name:</label>
-                            <input type="text" id="farmerName" required placeholder="Enter your name">
-                        </div>
-                        <div class="form-group">
-                            <label for="farmerPhone">Phone Number:</label>
-                            <input type="tel" id="farmerPhone" required placeholder="Enter your phone number">
-                        </div>
-                        <div class="form-group">
-                            <label for="farmerLocation">Location:</label>
-                            <input type="text" id="farmerLocation" required placeholder="Enter your location">
-                        </div>
-                        <div class="form-group">
-                            <label for="farmingType">Farming Type:</label>
-                            <select id="farmingType" required>
-                                <option value="Crop Farming">Crop Farming</option>
-                                <option value="Livestock Farming">Livestock Farming</option>
-                                <option value="Mixed Farming">Mixed Farming</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="cropType">Main Crop Type:</label>
-                            <input type="text" id="cropType" placeholder="Enter the type of crop" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="mechanizationNeeds">Mechanization Needs:</label>
-                            <textarea id="mechanizationNeeds" placeholder="Describe mechanization needs" required></textarea>
-                        </div>
-                        <button type="submit">Register</button>
-                    </form>
-                    <div id="alertMessage" class="alert"></div>
-                    <p id="farmerID"></p>
-                `;
-                
-                // Handle form submission and Firebase
-                document.getElementById('farmerForm').addEventListener('submit', async function(event) {
-                    event.preventDefault();
-                    
-                    let farmerID = generateFarmerID();
-                    const farmerName = document.getElementById('farmerName').value;
-                    const farmerPhone = document.getElementById('farmerPhone').value;
-                    const farmerLocation = document.getElementById('farmerLocation').value;
-                    const farmingType = document.getElementById('farmingType').value;
-                    const cropType = document.getElementById('cropType').value;
-                    const mechanizationNeeds = document.getElementById('mechanizationNeeds').value;
+        // Function to dynamically load content
+function loadContent(page) {
+    const contentSection = document.getElementById('content-section');
 
-                    try {
-                        // Add the farmer data to Firestore
-                        const docRef = await addDoc(collection(db, "farmers"), {
-                            name: farmerName,
-                            phone: farmerPhone,
-                            location: farmerLocation,
-                            farmingType: farmingType,
-                            cropType: cropType,
-                            mechanizationNeeds: mechanizationNeeds,
-                            farmerID: farmerID,
-                            timestamp: new Date()
-                        });
-                        
-                        document.getElementById('alertMessage').innerHTML = 'Registration successful!';
-                        document.getElementById('farmerID').innerHTML = `Your Farmer ID: ${farmerID}`;
-                    } catch (e) {
-                        document.getElementById('alertMessage').innerHTML = `Error: ${e.message}`;
-                    }
+    if (page === 'about') {
+        contentSection.innerHTML = `
+            <h2>About Us</h2>
+            <p>We help farmers access mechanized support and improve productivity.</p>
+        `;
+    } else if (page === 'register') {
+        contentSection.innerHTML = `
+            <h2>Farmer Registration</h2>
+            <form id="farmerForm">
+                <label>Name:</label>
+                <input type="text" id="farmerName" required>
+
+                <label>Phone Number:</label>
+                <input type="tel" id="farmerPhone" required>
+
+                <label>Location:</label>
+                <input type="text" id="farmerLocation" required>
+
+                <label>Farming Type:</label>
+                <select id="farmingType">
+                    <option value="Crop Farming">Crop Farming</option>
+                    <option value="Livestock Farming">Livestock Farming</option>
+                    <option value="Mixed Farming">Mixed Farming</option>
+                </select>
+
+                <label>Mechanization Needs:</label>
+                <textarea id="mechanizationNeeds"></textarea>
+
+                <button type="submit">Register</button>
+            </form>
+            <div id="alertMessage"></div>
+        `;
+
+        document.getElementById('farmerForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            let farmerID = generateFarmerID();
+            const farmerName = document.getElementById('farmerName').value;
+            const farmerPhone = document.getElementById('farmerPhone').value;
+            const farmerLocation = document.getElementById('farmerLocation').value;
+            const farmingType = document.getElementById('farmingType').value;
+            const mechanizationNeeds = document.getElementById('mechanizationNeeds').value;
+
+            try {
+                await addDoc(collection(db, "farmers"), {
+                    name: farmerName,
+                    phone: farmerPhone,
+                    location: farmerLocation,
+                    farmingType: farmingType,
+                    mechanizationNeeds: mechanizationNeeds,
+                    farmerID: farmerID
                 });
-            } else if (page === 'contact') {
-                contentSection.innerHTML = `
-                    <h2>Contact Us</h2>
-                    <p>If you have any questions, feel free to contact us at:</p>
-                    <ul>
-                        <li>Email: support@farmsupport.com</li>
-                        <li>Phone: +123-456-7890</li>
-                    </ul>
-                    <p>We are here to help you with any concerns related to our platform or services.</p>
-                `;
-            }
-        }
 
+                document.getElementById('alertMessage').innerHTML = `Registration successful! Farmer ID: <strong>${farmerID}</strong>`;
+            } catch (e) {
+                document.getElementById('alertMessage').innerHTML = `Error: ${e.message}`;
+            }
+        });
+    } else if (page === 'contact') {
+        contentSection.innerHTML = `
+            <h2>Contact Us</h2>
+            <p>Email: support@farmsupport.com</p>
+            <p>Phone: +123-456-7890</p>
+        `;
+    }
+}
         // Function to generate a unique Farmer ID
         function generateFarmerID() {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -166,6 +142,7 @@
             }
             return id;
         }
+        
     </script>
 </body>
 </html>
