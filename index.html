@@ -7,66 +7,70 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
+    <div class="form-container">
         <h1>Farmer Data Collection</h1>
         <form id="farmerForm">
-            <!-- Farmer Name -->
-            <label for="name">Farmer Name</label>
-            <input type="text" id="name" placeholder="Enter Farmer Name" required>
-            
-            <!-- Location -->
-            <label for="location">Location</label>
-            <input type="text" id="location" placeholder="Enter Location" required>
-            
-            <!-- Farm Size -->
-            <label for="farmSize">Farm Size (in acres)</label>
-            <input type="number" id="farmSize" placeholder="Enter Farm Size" required>
-            
-            <!-- Crop -->
-            <label for="crop">Crops Grown</label>
-            <input type="text" id="crop" placeholder="Enter Crops Grown" required>
-            
-            <!-- Soil Type Dropdown -->
-            <label for="soilType">Soil Type</label>
-            <select id="soilType" required>
-                <option value="">Select Soil Type</option>
-                <option value="Loam">Loam</option>
-                <option value="Clay">Clay</option>
-                <option value="Sandy">Sandy</option>
-                <option value="Peat">Peat</option>
-            </select>
-            
-            <!-- Irrigation Type Dropdown -->
-            <label for="irrigation">Irrigation Method</label>
-            <select id="irrigation" required>
-                <option value="">Select Irrigation Type</option>
-                <option value="Drip">Drip Irrigation</option>
-                <option value="Sprinkler">Sprinkler</option>
-                <option value="Borehole">Borehole</option>
-                <option value="Rain-fed">Rain-fed</option>
-            </select>
-            
-            <!-- Labor Information -->
-            <label for="labor">Number of Workers</label>
-            <input type="number" id="labor" placeholder="Enter Number of Workers" required>
-            
-            <!-- Budget -->
-            <label for="budget">Budget for Mechanization</label>
-            <input type="number" id="budget" placeholder="Enter Budget for Mechanization" required>
+            <div class="input-group">
+                <label for="name">Farmer Name</label>
+                <input type="text" id="name" placeholder="Enter Farmer Name" required>
+            </div>
 
-            <button type="submit">Submit</button>
+            <div class="input-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" placeholder="Enter Location" required>
+            </div>
+
+            <div class="input-group">
+                <label for="farmSize">Farm Size (in acres)</label>
+                <input type="number" id="farmSize" placeholder="Enter Farm Size" required>
+            </div>
+
+            <div class="input-group">
+                <label for="crop">Crops Grown</label>
+                <input type="text" id="crop" placeholder="Enter Crops Grown" required>
+            </div>
+
+            <div class="input-group">
+                <label for="soilType">Soil Type</label>
+                <select id="soilType" required>
+                    <option value="">Select Soil Type</option>
+                    <option value="Loam">Loam</option>
+                    <option value="Clay">Clay</option>
+                    <option value="Sandy">Sandy</option>
+                    <option value="Peat">Peat</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="irrigation">Irrigation Method</label>
+                <select id="irrigation" required>
+                    <option value="">Select Irrigation Type</option>
+                    <option value="Drip">Drip Irrigation</option>
+                    <option value="Sprinkler">Sprinkler</option>
+                    <option value="Borehole">Borehole</option>
+                    <option value="Rain-fed">Rain-fed</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="labor">Number of Workers</label>
+                <input type="number" id="labor" placeholder="Enter Number of Workers" required>
+            </div>
+
+            <div class="input-group">
+                <label for="budget">Budget for Mechanization</label>
+                <input type="number" id="budget" placeholder="Enter Budget for Mechanization" required>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit</button>
         </form>
 
-        <!-- Display farmer's alphanumeric ID here -->
-        <p id="farmerID"></p>
-        
-        <!-- Success/Error Messages -->
         <div id="alertMessage" class="alert"></div>
+        <p id="farmerID"></p>
     </div>
 
-    <!-- Include Firebase SDK as a module -->
+    <!-- Firebase Script -->
     <script type="module">
-        // Your Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyCQhN1TJRcRJ2ef34uCgRtPZON7E4lJj64",
             authDomain: "farmer-data-collection-48d45.firebaseapp.com",
@@ -77,19 +81,16 @@
             measurementId: "G-T45LN4R8VM"
         };
 
-        // Import Firebase SDK modules
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
         import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Function to generate a random alphanumeric ID
         function generateID() {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let result = '';
-            const length = 8; // Length of the ID (you can change it)
+            const length = 8;
             for (let i = 0; i < length; i++) {
                 const randomIndex = Math.floor(Math.random() * characters.length);
                 result += characters[randomIndex];
@@ -97,7 +98,6 @@
             return result;
         }
 
-        // Listen for form submit
         document.getElementById("farmerForm").addEventListener("submit", async (event) => {
             event.preventDefault();
 
@@ -110,15 +110,11 @@
             let labor = document.getElementById("labor").value;
             let budget = document.getElementById("budget").value;
 
-            console.log("Submitting Data:", { name, location, farmSize, crop, soilType, irrigation, labor, budget });
-
             try {
-                // Generate a custom alphanumeric ID
                 const farmerID = generateID();
 
-                // Add data to Firestore with the generated ID
                 await addDoc(collection(db, "farmers"), {
-                    id: farmerID,  // Store the custom ID
+                    id: farmerID,
                     name: name,
                     location: location,
                     farmSize: farmSize,
@@ -130,19 +126,13 @@
                     timestamp: new Date()
                 });
 
-                // Display the unique alphanumeric ID to the farmer
                 document.getElementById("farmerID").innerText = `Your Farmer ID: ${farmerID}`;
-
-                // Display success message
                 document.getElementById("alertMessage").innerText = `Data submitted successfully! Your ID: ${farmerID}`;
                 document.getElementById("alertMessage").classList.add("success");
                 document.getElementById("alertMessage").classList.remove("error");
 
                 document.getElementById("farmerForm").reset();
             } catch (error) {
-                console.error("Error adding document: ", error);
-
-                // Display error message
                 document.getElementById("alertMessage").innerText = "Error submitting data. Please try again.";
                 document.getElementById("alertMessage").classList.add("error");
                 document.getElementById("alertMessage").classList.remove("success");
