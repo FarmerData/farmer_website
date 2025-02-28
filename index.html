@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farmer Data Collection</title>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <title>Farmers Data Collection</title>
 </head>
 <body>
-    <h2>Farmer Data Collection</h2>
+    <h1>Farmers Data Collection</h1>
+
+    <!-- Form to Collect Data -->
     <form id="farmerForm">
-        <input type="text" id="name" placeholder="Farmer Name" required><br>
-        <input type="text" id="location" placeholder="Location" required><br>
-        <input type="text" id="crop" placeholder="Main Crop" required><br>
+        <input type="text" id="name" placeholder="Enter Farmer's Name" required><br>
+        <input type="text" id="location" placeholder="Enter Location" required><br>
+        <input type="text" id="crop" placeholder="Enter Crop Type" required><br>
         <button type="submit">Submit</button>
     </form>
 
-    <h3>Farmers Data</h3>
+    <h2>Farmers Data</h2>
     <table border="1">
         <tr>
+            <th>Farmer ID</th>
             <th>Name</th>
             <th>Location</th>
             <th>Crop</th>
@@ -27,6 +27,11 @@
         <tbody id="dataTable"></tbody>
     </table>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+
+    <!-- Custom Script -->
     <script src="script.js"></script>
 </body>
 </html>
