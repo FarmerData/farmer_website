@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Farmer Support Platform</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* For smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -13,9 +19,9 @@
         </div>
         <nav>
             <ul>
-                <li><a href="#about" onclick="loadContent('about'); return false;">About</a></li>
-                <li><a href="#register" onclick="loadContent('register'); return false;">Register</a></li>
-                <li><a href="#contact" onclick="loadContent('contact'); return false;">Contact</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#register">Register</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
     </header>
@@ -27,9 +33,80 @@
         </div>
     </section>
 
-    <section id="content-section">
-        <h2>Welcome to Farm Support!</h2>
-        <p>Click the links above to see dynamic content.</p>
+    <section id="about">
+        <h2>About Us</h2>
+        <p>We help farmers access mechanized support and improve productivity.</p>
+    </section>
+
+    <section id="register">
+        <h2>Farmer Registration</h2>
+        <form id="farmerForm">
+            <label>Name:</label>
+            <input type="text" id="farmerName" required>
+
+            <label>Phone Number:</label>
+            <input type="tel" id="farmerPhone" required>
+
+            <label>Location:</label>
+            <input type="text" id="farmerLocation" required>
+
+            <label>Age:</label>
+            <input type="number" id="farmerAge" required>
+
+            <label>Gender:</label>
+            <select id="farmerGender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+
+            <label>Farm Size (in acres):</label>
+            <input type="number" id="farmSize" required>
+
+            <label>Farming Type:</label>
+            <input type="text" id="farmingType" required>
+
+            <label>Main Crops or Livestock:</label>
+            <input type="text" id="mainCropsLivestock" required>
+
+            <label>Farming Experience (years):</label>
+            <input type="number" id="farmingExperience" required>
+
+            <label>Equipment Needed:</label>
+            <input type="text" id="equipmentNeeded" required>
+
+            <label>Irrigation Support:</label>
+            <input type="text" id="irrigationSupport" required>
+
+            <label>Storage Facility:</label>
+            <input type="text" id="storageFacility" required>
+
+            <label>Bank Account:</label>
+            <input type="text" id="bankAccount" required>
+
+            <label>Momo Account:</label>
+            <input type="text" id="momoAccount" required>
+
+            <label>Agri Loan Needed:</label>
+            <input type="text" id="agriLoan" required>
+
+            <label>Training Interest:</label>
+            <input type="text" id="trainingInterest" required>
+
+            <label>Smartphone Access:</label>
+            <input type="text" id="smartphoneAccess" required>
+
+            <label>Internet Access:</label>
+            <input type="text" id="internetAccess" required>
+
+            <button type="submit">Register</button>
+        </form>
+        <div id="alertMessage"></div>
+    </section>
+
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <p>Email: support@farmsupport.com</p>
+        <p>Phone: +123-456-7890</p>
     </section>
 
     <footer>
