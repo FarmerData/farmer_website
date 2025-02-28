@@ -1,7 +1,7 @@
 /* General styling */
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
+    margin: 20px;
     padding: 0;
     box-sizing: border-box;
 }
@@ -17,7 +17,7 @@ header {
 }
 
 header .logo h1 {
-    margin: 0;
+    margin: 20px;
 }
 
 nav ul {
