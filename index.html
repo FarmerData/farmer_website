@@ -33,6 +33,79 @@
         <p>Click the links above to see dynamic content.</p>
     </section>
 
+    <!-- Registration Form (Initially Hidden) -->
+    <section id="register-form" style="display: none;">
+        <h2>Farmer Registration</h2>
+        <form id="farmerForm">
+            <label for="farmerName">Name:</label>
+            <input type="text" id="farmerName" required><br>
+            
+            <label for="farmerPhone">Phone:</label>
+            <input type="text" id="farmerPhone" required><br>
+            
+            <label for="farmerLocation">Location:</label>
+            <input type="text" id="farmerLocation" required><br>
+            
+            <label for="farmerAge">Age:</label>
+            <input type="number" id="farmerAge" required><br>
+            
+            <label for="farmerGender">Gender:</label>
+            <select id="farmerGender" required>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select><br>
+
+            <label for="farmSize">Farm Size:</label>
+            <input type="number" id="farmSize" required><br>
+
+            <label for="farmingType">Farming Type:</label>
+            <input type="text" id="farmingType" required><br>
+
+            <label for="mainCropsLivestock">Main Crops/Livestock:</label>
+            <input type="text" id="mainCropsLivestock" required><br>
+
+            <label for="farmingExperience">Farming Experience (in years):</label>
+            <input type="number" id="farmingExperience" required><br>
+
+            <label for="equipmentNeeded">Equipment Needed:</label>
+            <input type="text" id="equipmentNeeded" required><br>
+
+            <label for="irrigationSupport">Irrigation Support:</label>
+            <input type="text" id="irrigationSupport" required><br>
+
+            <label for="storageFacility">Storage Facility:</label>
+            <input type="text" id="storageFacility" required><br>
+
+            <label for="bankAccount">Bank Account:</label>
+            <input type="text" id="bankAccount" required><br>
+
+            <label for="momoAccount">Momo Account:</label>
+            <input type="text" id="momoAccount" required><br>
+
+            <label for="agriLoan">Agricultural Loan (Yes/No):</label>
+            <select id="agriLoan" required>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select><br>
+
+            <label for="trainingInterest">Interested in Agricultural Training (Yes/No):</label>
+            <select id="trainingInterest" required>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select><br>
+
+            <label for="smartphoneAccess">Smartphone Access:</label>
+            <input type="text" id="smartphoneAccess" required><br>
+
+            <label for="internetAccess">Internet Access:</label>
+            <input type="text" id="internetAccess" required><br>
+
+            <button type="submit">Register</button>
+        </form>
+        <div id="alertMessage"></div>
+    </section>
+
     <footer>
         <div class="footer-content">
             <p>&copy; 2025 Farm Support. All rights reserved.</p>
@@ -42,100 +115,112 @@
     <!-- Link to the External JavaScript File -->
     <script type="module">
         // Import Firebase Modules
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
-// Firebase Config
-const firebaseConfig = {
-    apiKey: "AIzaSyCQhN1TJRcRJ2ef34uCgRtPZON7E4lJj64",
-    authDomain: "farmer-data-collection-48d45.firebaseapp.com",
-    projectId: "farmer-data-collection-48d45",
-    storageBucket: "farmer-data-collection-48d45.firebasestorage.app",
-    messagingSenderId: "755785555291",
-    appId: "1:755785555291:web:714b31f381697e43238e7e",
-    measurementId: "G-T45LN4R8VM"
-};
+        // Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQhN1TJRcRJ2ef34uCgRtPZON7E4lJj64",
+            authDomain: "farmer-data-collection-48d45.firebaseapp.com",
+            projectId: "farmer-data-collection-48d45",
+            storageBucket: "farmer-data-collection-48d45.firebasestorage.app",
+            messagingSenderId: "755785555291",
+            appId: "1:755785555291:web:714b31f381697e43238e7e",
+            measurementId: "G-T45LN4R8VM"
+        };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-// Function to Generate Unique Farmer ID
-function generateFarmerID() {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let id = '';
-    for (let i = 0; i < 6; i++) {
-        id += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return id;
-}
-
-// Wait for Page to Load
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('farmerForm').addEventListener('submit', async function(event) {
-        event.preventDefault(); // Prevents Page Refresh
-
-        // Collect Form Data
-        let farmerID = generateFarmerID();
-        const farmerName = document.getElementById('farmerName').value;
-        const farmerPhone = document.getElementById('farmerPhone').value;
-        const farmerLocation = document.getElementById('farmerLocation').value;
-        const farmerAge = document.getElementById('farmerAge').value;
-        const farmerGender = document.getElementById('farmerGender').value;
-        const farmSize = document.getElementById('farmSize').value;
-        const farmingType = document.getElementById('farmingType').value;
-        const mainCropsLivestock = document.getElementById('mainCropsLivestock').value;
-        const farmingExperience = document.getElementById('farmingExperience').value;
-        const equipmentNeeded = document.getElementById('equipmentNeeded').value;
-        const irrigationSupport = document.getElementById('irrigationSupport').value;
-        const storageFacility = document.getElementById('storageFacility').value;
-        const bankAccount = document.getElementById('bankAccount').value;
-        const momoAccount = document.getElementById('momoAccount').value;    
-        const agriLoan = document.getElementById('agriLoan').value;
-        const trainingInterest = document.getElementById('trainingInterest').value;
-        const smartphoneAccess = document.getElementById('smartphoneAccess').value;
-        const internetAccess = document.getElementById('internetAccess').value;
-
-        try {
-            // Save Data to Firestore
-            await addDoc(collection(db, "farmers"), {
-                farmerID: farmerID,
-                name: farmerName,
-                phone: farmerPhone,
-                location: farmerLocation,
-                age: farmerAge,
-                gender: farmerGender,
-                farmSize: farmSize,
-                farmingType: farmingType,
-                mainCropsLivestock: mainCropsLivestock,
-                farmingExperience: farmingExperience,
-                equipmentNeeded: equipmentNeeded,  // Fixed error here
-                irrigationSupport: irrigationSupport,  // Fixed error here
-                storageFacility: storageFacility,  // Fixed error here
-                bankAccount: bankAccount,  // Fixed error here
-                momoAccount: momoAccount,  // Fixed error here
-                agriLoan: agriLoan,  // Fixed error here
-                trainingInterest: trainingInterest,  // Fixed error here
-                smartphoneAccess: smartphoneAccess,  // Fixed error here
-                internetAccess: internetAccess  // Fixed error here
-            });
-
-            // Success Message
-            document.getElementById('alertMessage').innerHTML = `
-                ✅ Registration Successful! Your Farmer ID: <strong>${farmerID}</strong>
-            `;
-            document.getElementById('alertMessage').style.color = "green";
-
-            // Reset Form
-            document.getElementById('farmerForm').reset();
-        } catch (error) {
-            // Error Handling
-            document.getElementById('alertMessage').innerHTML = `❌ Error: ${error.message}`;
-            document.getElementById('alertMessage').style.color = "red";
+        // Function to Generate Unique Farmer ID
+        function generateFarmerID() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let id = '';
+            for (let i = 0; i < 6; i++) {
+                id += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return id;
         }
-    });
-});
 
+        // Function to Load Dynamic Content
+        function loadContent(section) {
+            const contentSection = document.getElementById('content-section');
+            const registerForm = document.getElementById('register-form');
+            if (section === 'register') {
+                contentSection.style.display = 'none';
+                registerForm.style.display = 'block';
+            } else {
+                contentSection.style.display = 'block';
+                registerForm.style.display = 'none';
+            }
+        }
+
+        // Wait for Page to Load
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('farmerForm').addEventListener('submit', async function(event) {
+                event.preventDefault(); // Prevents Page Refresh
+
+                // Collect Form Data
+                let farmerID = generateFarmerID();
+                const farmerName = document.getElementById('farmerName').value;
+                const farmerPhone = document.getElementById('farmerPhone').value;
+                const farmerLocation = document.getElementById('farmerLocation').value;
+                const farmerAge = document.getElementById('farmerAge').value;
+                const farmerGender = document.getElementById('farmerGender').value;
+                const farmSize = document.getElementById('farmSize').value;
+                const farmingType = document.getElementById('farmingType').value;
+                const mainCropsLivestock = document.getElementById('mainCropsLivestock').value;
+                const farmingExperience = document.getElementById('farmingExperience').value;
+                const equipmentNeeded = document.getElementById('equipmentNeeded').value;
+                const irrigationSupport = document.getElementById('irrigationSupport').value;
+                const storageFacility = document.getElementById('storageFacility').value;
+                const bankAccount = document.getElementById('bankAccount').value;
+                const momoAccount = document.getElementById('momoAccount').value;    
+                const agriLoan = document.getElementById('agriLoan').value;
+                const trainingInterest = document.getElementById('trainingInterest').value;
+                const smartphoneAccess = document.getElementById('smartphoneAccess').value;
+                const internetAccess = document.getElementById('internetAccess').value;
+
+                try {
+                    // Save Data to Firestore
+                    await addDoc(collection(db, "farmers"), {
+                        farmerID: farmerID,
+                        name: farmerName,
+                        phone: farmerPhone,
+                        location: farmerLocation,
+                        age: farmerAge,
+                        gender: farmerGender,
+                        farmSize: farmSize,
+                        farmingType: farmingType,
+                        mainCropsLivestock: mainCropsLivestock,
+                        farmingExperience: farmingExperience,
+                        equipmentNeeded: equipmentNeeded,
+                        irrigationSupport: irrigationSupport,
+                        storageFacility: storageFacility,
+                        bankAccount: bankAccount,
+                        momoAccount: momoAccount,
+                        agriLoan: agriLoan,
+                        trainingInterest: trainingInterest,
+                        smartphoneAccess: smartphoneAccess,
+                        internetAccess: internetAccess
+                    });
+
+                    // Success Message
+                    document.getElementById('alertMessage').innerHTML = `
+                        ✅ Registration Successful! Your Farmer ID: <strong>${farmerID}</strong>
+                    `;
+                    document.getElementById('alertMessage').style.color = "green";
+
+                    // Reset Form
+                    document.getElementById('farmerForm').reset();
+                } catch (error) {
+                    // Error Handling
+                    document.getElementById('alertMessage').innerHTML = `❌ Error: ${error.message}`;
+                    document.getElementById('alertMessage').style.color = "red";
+                }
+            });
+        });
     </script>
 </body>
 </html>
