@@ -14,6 +14,9 @@
         <button type="submit">Submit</button>
     </form>
 
+    <!-- Display farmer's alphanumeric ID here -->
+    <p id="farmerID"></p>
+
     <!-- Include Firebase SDK as a module -->
     <script type="module">
         // Your Firebase configuration
@@ -35,6 +38,18 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        // Function to generate a random alphanumeric ID
+        function generateID() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let result = '';
+            const length = 8; // Length of the ID (you can change it)
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                result += characters[randomIndex];
+            }
+            return result;
+        }
+
         // Listen for form submit
         document.getElementById("farmerForm").addEventListener("submit", async (event) => {
             event.preventDefault();
@@ -46,14 +61,22 @@
             console.log("Submitting Data:", { name, location, crop });
 
             try {
-                // Add data to Firestore
+                // Generate a custom alphanumeric ID
+                const farmerID = generateID();
+
+                // Add data to Firestore with the generated ID
                 await addDoc(collection(db, "farmers"), {
+                    id: farmerID,  // Store the custom ID
                     name: name,
                     location: location,
                     crop: crop,
                     timestamp: new Date()
                 });
-                alert("Data submitted successfully!");
+
+                // Display the unique alphanumeric ID to the farmer
+                document.getElementById("farmerID").innerText = `Your Farmer ID: ${farmerID}`;
+
+                alert("Data submitted successfully! Your ID: " + farmerID);
                 document.getElementById("farmerForm").reset();
             } catch (error) {
                 console.error("Error adding document: ", error);
