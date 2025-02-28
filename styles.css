@@ -58,7 +58,7 @@ nav ul li a:hover {
     padding: 20px;
     max-width: 50%;
     overflow-y: auto;
-    height: calc(100vh - 150px); /* Adjust height with header height */
+    height: calc(80vh - 100px); /* Adjust height with header height */
 }
 
 #content-section h2 {
@@ -79,7 +79,7 @@ form label {
 form input, form select {
     width: 50%;
     padding: 10px;
-    margin: 8px 0;
+    margin: 8px 10px;
     border-radius: 4px;
     border: 1px solid #ccc;
 }
@@ -98,27 +98,6 @@ form button:hover {
     background-color: #45a049;
 }
 
-/* Add this to your styles.css */
-#register-container {
-    width: 60%; /* Set the form width to 60% of the page */
-    max-width: 600px; /* Optionally, set a maximum width */
-    margin: 0 auto; /* Center the form horizontally */
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Ensure form elements inside the registration container are not too wide */
-#register-container input,
-#register-container select,
-#register-container textarea {
-    width: 100%; /* Make form elements take up 100% of the container width */
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
 
 /* Footer */
 footer {
