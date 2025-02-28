@@ -3,35 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farmers Data Collection</title>
+    <title>Farmer Data Collection</title>
 </head>
 <body>
     <h1>Farmers Data Collection</h1>
-
-    <!-- Form to Collect Data -->
     <form id="farmerForm">
-        <input type="text" id="name" placeholder="Enter Farmer's Name" required><br>
-        <input type="text" id="location" placeholder="Enter Location" required><br>
-        <input type="text" id="crop" placeholder="Enter Crop Type" required><br>
+        <input type="text" id="name" placeholder="Farmer Name">
+        <input type="text" id="location" placeholder="Location">
+        <input type="text" id="crop" placeholder="Crop">
         <button type="submit">Submit</button>
     </form>
 
-    <h2>Farmers Data</h2>
-    <table border="1">
-        <tr>
-            <th>Farmer ID</th>
-            <th>Name</th>
-            <th>Location</th>
-            <th>Crop</th>
-        </tr>
-        <tbody id="dataTable"></tbody>
-    </table>
+    <!-- Include Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQhN1TJRcRJ2ef34uCgRtPZON7E4lJj64",
+            authDomain: "farmer-data-collection-48d45.firebaseapp.com",
+            projectId: "farmer-data-collection-48d45",
+            storageBucket: "farmer-data-collection-48d45.appspot.com",
+            messagingSenderId: "755785555291",
+            appId: "1:755785555291:web:714b31f381697e43238e7e",
+            measurementId: "G-T45LN4R8VM"
+        };
 
-    <!-- Custom Script -->
-    <script src="script.js"></script>
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore(app);
+
+        // Listen for form submit
+        document.getElementById("farmerForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            let name = document.getElementById("name").value;
+            let location = document.getElementById("location").value;
+            let crop = document.getElementById("crop").value;
+
+            console.log("Submitting Data:", { name, location, crop });
+
+            try {
+                // Add data to Firestore
+                await db.collection("farmers").add({
+                    name: name,
+                    location: location,
+                    crop: crop,
+                    timestamp: new Date()
+                });
+                alert("Data submitted successfully!");
+                document.getElementById("farmerForm").reset();
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                alert("Error submitting data.");
+            }
+        });
+    </script>
 </body>
 </html>
