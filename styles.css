@@ -1,69 +1,111 @@
-/* Add this to your CSS file */
+/* General styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-/* Make the header sticky */
+/* Sticky Header */
 header {
     position: sticky;
     top: 0;
     background-color: #fff;
     z-index: 10;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Allow scrolling within the content section */
-#content-section {
-    height: calc(100vh - 100px); /* Adjust height based on header height */
-    overflow-y: auto; /* Enables vertical scrolling */
     padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Styling for the rest of the page */
-body {
-    font-family: Arial, sans-serif;
+header .logo h1 {
     margin: 0;
+}
+
+nav ul {
+    list-style: none;
     padding: 0;
+    display: flex;
 }
 
-footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #f1f1f1;
+nav ul li {
+    margin-right: 20px;
 }
 
-.hero-content {
-    text-align: center;
-    padding: 50px;
-    background-color: #f0f0f0;
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    padding: 10px 15px;
 }
 
-form {
-    margin: 20px 0;
-}
-
-input, select {
-    margin: 10px 0;
-    padding: 10px;
-    width: 100%;
-    max-width: 300px;
-}
-
-button {
-    padding: 10px 20px;
+nav ul li a:hover {
     background-color: #4CAF50;
     color: white;
-    border: none;
-    cursor: pointer;
 }
 
-button:hover {
+/* Hero Section */
+#hero {
+    background-color: #f0f0f0;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+#hero .hero-content h2 {
+    margin: 0;
+}
+
+/* Content Section */
+#content-section {
+    padding: 20px;
+    max-width: 100%;
+    overflow-y: auto;
+    height: calc(100vh - 150px); /* Adjust height with header height */
+}
+
+#content-section h2 {
+    margin-bottom: 20px;
+}
+
+/* Form Styling */
+form {
+    margin-top: 20px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+form input, form select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+form button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+form button:hover {
     background-color: #45a049;
+}
+
+/* Footer */
+footer {
+    background-color: #f1f1f1;
+    padding: 20px;
+    text-align: center;
 }
 
 #alertMessage {
     margin-top: 10px;
     font-weight: bold;
 }
-
-#register-form {
-    margin-top: 20px;
-}
-
