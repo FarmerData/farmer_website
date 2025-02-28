@@ -4,18 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Farmer Data Collection</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Farmers Data Collection</h1>
-    <form id="farmerForm">
-        <input type="text" id="name" placeholder="Farmer Name">
-        <input type="text" id="location" placeholder="Location">
-        <input type="text" id="crop" placeholder="Crop">
-        <button type="submit">Submit</button>
-    </form>
+    <div class="container">
+        <h1>Farmer Data Collection</h1>
+        <form id="farmerForm">
+            <!-- Farmer Name -->
+            <label for="name">Farmer Name</label>
+            <input type="text" id="name" placeholder="Enter Farmer Name" required>
+            
+            <!-- Location -->
+            <label for="location">Location</label>
+            <input type="text" id="location" placeholder="Enter Location" required>
+            
+            <!-- Farm Size -->
+            <label for="farmSize">Farm Size (in acres)</label>
+            <input type="number" id="farmSize" placeholder="Enter Farm Size" required>
+            
+            <!-- Crop -->
+            <label for="crop">Crops Grown</label>
+            <input type="text" id="crop" placeholder="Enter Crops Grown" required>
+            
+            <!-- Soil Type Dropdown -->
+            <label for="soilType">Soil Type</label>
+            <select id="soilType" required>
+                <option value="">Select Soil Type</option>
+                <option value="Loam">Loam</option>
+                <option value="Clay">Clay</option>
+                <option value="Sandy">Sandy</option>
+                <option value="Peat">Peat</option>
+            </select>
+            
+            <!-- Irrigation Type Dropdown -->
+            <label for="irrigation">Irrigation Method</label>
+            <select id="irrigation" required>
+                <option value="">Select Irrigation Type</option>
+                <option value="Drip">Drip Irrigation</option>
+                <option value="Sprinkler">Sprinkler</option>
+                <option value="Borehole">Borehole</option>
+                <option value="Rain-fed">Rain-fed</option>
+            </select>
+            
+            <!-- Labor Information -->
+            <label for="labor">Number of Workers</label>
+            <input type="number" id="labor" placeholder="Enter Number of Workers" required>
+            
+            <!-- Budget -->
+            <label for="budget">Budget for Mechanization</label>
+            <input type="number" id="budget" placeholder="Enter Budget for Mechanization" required>
 
-    <!-- Display farmer's alphanumeric ID here -->
-    <p id="farmerID"></p>
+            <button type="submit">Submit</button>
+        </form>
+
+        <!-- Display farmer's alphanumeric ID here -->
+        <p id="farmerID"></p>
+        
+        <!-- Success/Error Messages -->
+        <div id="alertMessage" class="alert"></div>
+    </div>
 
     <!-- Include Firebase SDK as a module -->
     <script type="module">
@@ -56,9 +103,14 @@
 
             let name = document.getElementById("name").value;
             let location = document.getElementById("location").value;
+            let farmSize = document.getElementById("farmSize").value;
             let crop = document.getElementById("crop").value;
+            let soilType = document.getElementById("soilType").value;
+            let irrigation = document.getElementById("irrigation").value;
+            let labor = document.getElementById("labor").value;
+            let budget = document.getElementById("budget").value;
 
-            console.log("Submitting Data:", { name, location, crop });
+            console.log("Submitting Data:", { name, location, farmSize, crop, soilType, irrigation, labor, budget });
 
             try {
                 // Generate a custom alphanumeric ID
@@ -69,18 +121,31 @@
                     id: farmerID,  // Store the custom ID
                     name: name,
                     location: location,
+                    farmSize: farmSize,
                     crop: crop,
+                    soilType: soilType,
+                    irrigation: irrigation,
+                    labor: labor,
+                    budget: budget,
                     timestamp: new Date()
                 });
 
                 // Display the unique alphanumeric ID to the farmer
                 document.getElementById("farmerID").innerText = `Your Farmer ID: ${farmerID}`;
 
-                alert("Data submitted successfully! Your ID: " + farmerID);
+                // Display success message
+                document.getElementById("alertMessage").innerText = `Data submitted successfully! Your ID: ${farmerID}`;
+                document.getElementById("alertMessage").classList.add("success");
+                document.getElementById("alertMessage").classList.remove("error");
+
                 document.getElementById("farmerForm").reset();
             } catch (error) {
                 console.error("Error adding document: ", error);
-                alert("Error submitting data.");
+
+                // Display error message
+                document.getElementById("alertMessage").innerText = "Error submitting data. Please try again.";
+                document.getElementById("alertMessage").classList.add("error");
+                document.getElementById("alertMessage").classList.remove("success");
             }
         });
     </script>
