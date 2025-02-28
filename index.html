@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Farmer Support Platform</title>
     <link rel="stylesheet" href="styles.css">
-    <script defer src="script.js"></script>
 </head>
 <body>
     <header>
@@ -14,9 +13,9 @@
         </div>
         <nav>
             <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#register">Register</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#" onclick="loadContent('about'); return false;">About</a></li>
+                <li><a href="#" onclick="loadContent('register'); return false;">Register</a></li>
+                <li><a href="#" onclick="loadContent('contact'); return false;">Contact</a></li>
             </ul>
         </nav>
     </header>
@@ -28,126 +27,19 @@
         </div>
     </section>
 
-    <section id="about">
-        <h2>About Us</h2>
-        <p>We help farmers access mechanized support and improve productivity.</p>
-    </section>
-<section id="register">
-    <div class="form-container">
-        <h2>Farmer Registration</h2>
-        <form id="farmerForm">
-            <fieldset>
-                <legend>👤 Basic Information</legend>
-                <label>Name:</label>
-                <input type="text" id="farmerName" required>
-
-                <label>Phone Number:</label>
-                <input type="tel" id="farmerPhone" required>
-
-                <label>Location:</label>
-                <input type="text" id="farmerLocation" required>
-
-                <label>Age:</label>
-                <input type="number" id="farmerAge" required>
-
-                <label>Gender:</label>
-                <select id="farmerGender">
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                </select>
-            </fieldset>
-
-            <fieldset>
-                <legend>🌾 Farming Information</legend>
-                <label>Farm Size (in acres):</label>
-                <input type="number" id="farmSize" required>
-
-                <label>Farming Type:</label>
-                <select id="farmingType">
-                    <option value="Crop Farming">Crop Farming</option>
-                    <option value="Livestock Farming">Livestock Farming</option>
-                    <option value="Mixed Farming">Mixed Farming</option>
-                </select>
-
-                <label>Main Crops or Livestock:</label>
-                <input type="text" id="mainCropsLivestock" required>
-
-                <label>Years of Farming Experience:</label>
-                <input type="number" id="farmingExperience" required>
-            </fieldset>
-
-            <button type="submit">Register</button>
-        </form>
-        <div id="alertMessage"></div>
-    </div>
-</section>
-
-
-
-    <section id="contact">
-        <h2>Contact Us</h2>
-        <p>Email: support@farmsupport.com</p>
-        <p>Phone: +123-456-7890</p>
+    <section id="content-section">
+        <!-- Dynamic content will be loaded here -->
+        <h2>Welcome to Farm Support!</h2>
+        <p>Click the links above to see dynamic content.</p>
     </section>
 
     <footer>
-        <p>&copy; 2025 Farm Support. All rights reserved.</p>
+        <div class="footer-content">
+            <p>&copy; 2025 Farm Support. All rights reserved.</p>
+        </div>
     </footer>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyCQhN1TJRcRJ2ef34uCgRtPZON7E4lJj64",
-            authDomain: "farmer-data-collection-48d45.firebaseapp.com",
-            projectId: "farmer-data-collection-48d45",
-            storageBucket: "farmer-data-collection-48d45.firebasestorage.app",
-            messagingSenderId: "755785555291",
-            appId: "1:755785555291:web:714b31f381697e43238e7e"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        document.getElementById('farmerForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-
-            let farmerID = generateFarmerID();
-            const farmerData = {
-                name: document.getElementById('farmerName').value,
-                phone: document.getElementById('farmerPhone').value,
-                location: document.getElementById('farmerLocation').value,
-                age: document.getElementById('farmerAge').value,
-                gender: document.getElementById('farmerGender').value,
-                farmSize: document.getElementById('farmSize').value,
-                farmingType: document.getElementById('farmingType').value,
-                mainCropsLivestock: document.getElementById('mainCropsLivestock').value,
-                farmingExperience: document.getElementById('farmingExperience').value,
-                equipmentNeeded: document.getElementById('equipmentNeeded').value,
-                irrigationSupport: document.getElementById('irrigationSupport').value,
-                storageFacility: document.getElementById('storageFacility').value,
-                bankAccount: document.getElementById('bankAccount').value,
-                agriLoan: document.getElementById('agriLoan').value,
-                trainingInterest: document.getElementById('trainingInterest').value,
-                smartphoneAccess: document.getElementById('smartphoneAccess').value,
-                internetAccess: document.getElementById('internetAccess').value,
-                farmerID: farmerID
-            };
-
-            try {
-                await addDoc(collection(db, "farmers"), farmerData);
-                document.getElementById('alertMessage').innerHTML = `Registration successful! Farmer ID: <strong>${farmerID}</strong>`;
-            } catch (e) {
-                document.getElementById('alertMessage').innerHTML = `Error: ${e.message}`;
-            }
-        });
-
-        function generateFarmerID() {
-            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-            return Array(6).fill('').map(() => chars.charAt(Math.random() * chars.length)).join('');
-        }
-    </script>
+    <!-- Link to the External JavaScript File -->
+    <script type="module" src="script.js"></script>
 </body>
 </html>
