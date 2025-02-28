@@ -100,8 +100,8 @@ form button:hover {
 
 /* Add this to your styles.css */
 #register-container {
-    width: 80%; /* Adjust width as needed */
-    max-width: 600px; /* Optional: Set a max width to prevent it from becoming too large */
+    width: 60%; /* Set the form width to 60% of the page */
+    max-width: 600px; /* Optionally, set a maximum width */
     margin: 0 auto; /* Center the form horizontally */
     padding: 20px;
     background-color: #fff;
@@ -109,11 +109,11 @@ form button:hover {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Adjust form inputs for smaller width */
+/* Ensure form elements inside the registration container are not too wide */
 #register-container input,
 #register-container select,
 #register-container textarea {
-    width: 100%; /* Ensure inputs take up the full width of the container */
+    width: 100%; /* Make form elements take up 100% of the container width */
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
