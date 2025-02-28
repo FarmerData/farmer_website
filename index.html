@@ -32,106 +32,57 @@
         <h2>About Us</h2>
         <p>We help farmers access mechanized support and improve productivity.</p>
     </section>
+<section id="register">
+    <div class="form-container">
+        <h2>Farmer Registration</h2>
+        <form id="farmerForm">
+            <fieldset>
+                <legend>👤 Basic Information</legend>
+                <label>Name:</label>
+                <input type="text" id="farmerName" required>
 
-    <section id="register">
-    <h2>Farmer Registration</h2>
-    <form id="farmerForm">
-        <fieldset>
-            <legend>👤 Basic Information</legend>
-            <label>Name:</label>
-            <input type="text" id="farmerName" required>
+                <label>Phone Number:</label>
+                <input type="tel" id="farmerPhone" required>
 
-            <label>Phone Number:</label>
-            <input type="tel" id="farmerPhone" required>
+                <label>Location:</label>
+                <input type="text" id="farmerLocation" required>
 
-            <label>Location:</label>
-            <input type="text" id="farmerLocation" required>
+                <label>Age:</label>
+                <input type="number" id="farmerAge" required>
 
-            <label>Age:</label>
-            <input type="number" id="farmerAge" required>
+                <label>Gender:</label>
+                <select id="farmerGender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </fieldset>
 
-            <label>Gender:</label>
-            <select id="farmerGender">
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-            </select>
-        </fieldset>
+            <fieldset>
+                <legend>🌾 Farming Information</legend>
+                <label>Farm Size (in acres):</label>
+                <input type="number" id="farmSize" required>
 
-        <fieldset>
-            <legend>🌾 Farming Information</legend>
-            <label>Farm Size (in acres):</label>
-            <input type="number" id="farmSize" required>
+                <label>Farming Type:</label>
+                <select id="farmingType">
+                    <option value="Crop Farming">Crop Farming</option>
+                    <option value="Livestock Farming">Livestock Farming</option>
+                    <option value="Mixed Farming">Mixed Farming</option>
+                </select>
 
-            <label>Farming Type:</label>
-            <select id="farmingType">
-                <option value="Crop Farming">Crop Farming</option>
-                <option value="Livestock Farming">Livestock Farming</option>
-                <option value="Mixed Farming">Mixed Farming</option>
-            </select>
+                <label>Main Crops or Livestock:</label>
+                <input type="text" id="mainCropsLivestock" required>
 
-            <label>Main Crops or Livestock:</label>
-            <input type="text" id="mainCropsLivestock" required>
+                <label>Years of Farming Experience:</label>
+                <input type="number" id="farmingExperience" required>
+            </fieldset>
 
-            <label>Years of Farming Experience:</label>
-            <input type="number" id="farmingExperience" required>
-        </fieldset>
-
-        <fieldset>
-            <legend>🚜 Mechanization & Support Needs</legend>
-            <label>Equipment Needed:</label>
-            <input type="text" id="equipmentNeeded">
-
-            <label>Needs Irrigation Support?</label>
-            <select id="irrigationSupport">
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-            </select>
-
-            <label>Storage Facility Required?</label>
-            <select id="storageFacility">
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-            </select>
-        </fieldset>
-
-        <fieldset>
-            <legend>💰 Financial & Digital Access</legend>
-            <label>Has a Bank Account?</label>
-            <select id="bankAccount">
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-            </select>
-
-            <label>Needs Agricultural Loan?</label>
-            <select id="agriLoan">
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-            </select>
-
-            <label>Interested in Farming Training?</label>
-            <select id="trainingInterest">
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-            </select>
-
-            <label>Has a Smartphone?</label>
-            <select id="smartphoneAccess">
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-            </select>
-
-            <label>Has Internet Access?</label>
-            <select id="internetAccess">
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-            </select>
-        </fieldset>
-
-        <button type="submit">Register</button>
-    </form>
-    <div id="alertMessage"></div>
+            <button type="submit">Register</button>
+        </form>
+        <div id="alertMessage"></div>
+    </div>
 </section>
+
 
 
     <section id="contact">
