@@ -13,9 +13,9 @@
         </div>
         <nav>
             <ul>
-                <li><a href="#" onclick="loadContent('about'); return false;">About</a></li>
-                <li><a href="#" onclick="loadContent('register'); return false;">Register</a></li>
-                <li><a href="#" onclick="loadContent('contact'); return false;">Contact</a></li>
+                <li><a href="#about" onclick="loadContent('about'); return false;">About</a></li>
+                <li><a href="#register" onclick="loadContent('register'); return false;">Register</a></li>
+                <li><a href="#contact" onclick="loadContent('contact'); return false;">Contact</a></li>
             </ul>
         </nav>
     </header>
@@ -28,82 +28,8 @@
     </section>
 
     <section id="content-section">
-        <!-- Dynamic content will be loaded here -->
         <h2>Welcome to Farm Support!</h2>
         <p>Click the links above to see dynamic content.</p>
-    </section>
-
-    <!-- Registration Form (Initially Hidden) -->
-    <section id="register-form" style="display: none;">
-        <h2>Farmer Registration</h2>
-        <form id="farmerForm">
-            <label for="farmerName">Name:</label>
-            <input type="text" id="farmerName" required><br>
-            
-            <label for="farmerPhone">Phone:</label>
-            <input type="text" id="farmerPhone" required><br>
-            
-            <label for="farmerLocation">Location:</label>
-            <input type="text" id="farmerLocation" required><br>
-            
-            <label for="farmerAge">Age:</label>
-            <input type="number" id="farmerAge" required><br>
-            
-            <label for="farmerGender">Gender:</label>
-            <select id="farmerGender" required>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-            </select><br>
-
-            <label for="farmSize">Farm Size:</label>
-            <input type="number" id="farmSize" required><br>
-
-            <label for="farmingType">Farming Type:</label>
-            <input type="text" id="farmingType" required><br>
-
-            <label for="mainCropsLivestock">Main Crops/Livestock:</label>
-            <input type="text" id="mainCropsLivestock" required><br>
-
-            <label for="farmingExperience">Farming Experience (in years):</label>
-            <input type="number" id="farmingExperience" required><br>
-
-            <label for="equipmentNeeded">Equipment Needed:</label>
-            <input type="text" id="equipmentNeeded" required><br>
-
-            <label for="irrigationSupport">Irrigation Support:</label>
-            <input type="text" id="irrigationSupport" required><br>
-
-            <label for="storageFacility">Storage Facility:</label>
-            <input type="text" id="storageFacility" required><br>
-
-            <label for="bankAccount">Bank Account:</label>
-            <input type="text" id="bankAccount" required><br>
-
-            <label for="momoAccount">Momo Account:</label>
-            <input type="text" id="momoAccount" required><br>
-
-            <label for="agriLoan">Agricultural Loan (Yes/No):</label>
-            <select id="agriLoan" required>
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-            </select><br>
-
-            <label for="trainingInterest">Interested in Agricultural Training (Yes/No):</label>
-            <select id="trainingInterest" required>
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-            </select><br>
-
-            <label for="smartphoneAccess">Smartphone Access:</label>
-            <input type="text" id="smartphoneAccess" required><br>
-
-            <label for="internetAccess">Internet Access:</label>
-            <input type="text" id="internetAccess" required><br>
-
-            <button type="submit">Register</button>
-        </form>
-        <div id="alertMessage"></div>
     </section>
 
     <footer>
@@ -129,11 +55,9 @@
             measurementId: "G-T45LN4R8VM"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Function to Generate Unique Farmer ID
         function generateFarmerID() {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let id = '';
@@ -141,19 +65,6 @@
                 id += chars.charAt(Math.floor(Math.random() * chars.length));
             }
             return id;
-        }
-
-        // Function to Load Dynamic Content
-        function loadContent(section) {
-            const contentSection = document.getElementById('content-section');
-            const registerForm = document.getElementById('register-form');
-            if (section === 'register') {
-                contentSection.style.display = 'none';
-                registerForm.style.display = 'block';
-            } else {
-                contentSection.style.display = 'block';
-                registerForm.style.display = 'none';
-            }
         }
 
         // Wait for Page to Load
@@ -221,6 +132,88 @@
                 }
             });
         });
+
+        function loadContent(page) {
+            const contentSection = document.getElementById('content-section');
+
+            if (page === 'about') {
+                contentSection.innerHTML = `
+                    <h2>About Us</h2>
+                    <p>We help farmers access mechanized support and improve productivity.</p>
+                `;
+            } else if (page === 'register') {
+                contentSection.innerHTML = `
+                    <h2>Farmer Registration</h2>
+                    <form id="farmerForm">
+                        <label>Name:</label>
+                        <input type="text" id="farmerName" required>
+
+                        <label>Phone Number:</label>
+                        <input type="tel" id="farmerPhone" required>
+
+                        <label>Location:</label>
+                        <input type="text" id="farmerLocation" required>
+
+                        <label>Age:</label>
+                        <input type="number" id="farmerAge" required>
+
+                        <label>Gender:</label>
+                        <select id="farmerGender">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+
+                        <label>Farm Size (in acres):</label>
+                        <input type="number" id="farmSize" required>
+
+                        <label>Farming Type:</label>
+                        <input type="text" id="farmingType" required>
+
+                        <label>Main Crops or Livestock:</label>
+                        <input type="text" id="mainCropsLivestock" required>
+
+                        <label>Farming Experience (years):</label>
+                        <input type="number" id="farmingExperience" required>
+
+                        <label>Equipment Needed:</label>
+                        <input type="text" id="equipmentNeeded" required>
+
+                        <label>Irrigation Support:</label>
+                        <input type="text" id="irrigationSupport" required>
+
+                        <label>Storage Facility:</label>
+                        <input type="text" id="storageFacility" required>
+
+                        <label>Bank Account:</label>
+                        <input type="text" id="bankAccount" required>
+
+                        <label>Momo Account:</label>
+                        <input type="text" id="momoAccount" required>
+
+                        <label>Agri Loan Needed:</label>
+                        <input type="text" id="agriLoan" required>
+
+                        <label>Training Interest:</label>
+                        <input type="text" id="trainingInterest" required>
+
+                        <label>Smartphone Access:</label>
+                        <input type="text" id="smartphoneAccess" required>
+
+                        <label>Internet Access:</label>
+                        <input type="text" id="internetAccess" required>
+
+                        <button type="submit">Register</button>
+                    </form>
+                    <div id="alertMessage"></div>
+                `;
+            } else if (page === 'contact') {
+                contentSection.innerHTML = `
+                    <h2>Contact Us</h2>
+                    <p>Email: support@farmsupport.com</p>
+                    <p>Phone: +123-456-7890</p>
+                `;
+            }
+        }
     </script>
 </body>
 </html>
