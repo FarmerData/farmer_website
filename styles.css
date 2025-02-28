@@ -1,57 +1,69 @@
-/* Center the Form */
-.form-container {
-    max-width: 600px;
-    margin: 50px auto;
-    background: white;
+/* Add this to your CSS file */
+
+/* Make the header sticky */
+header {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Allow scrolling within the content section */
+#content-section {
+    height: calc(100vh - 100px); /* Adjust height based on header height */
+    overflow-y: auto; /* Enables vertical scrolling */
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Title */
-.form-container h2 {
+/* Styling for the rest of the page */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+footer {
     text-align: center;
-    margin-bottom: 20px;
-    color: #333;
+    padding: 20px;
+    background-color: #f1f1f1;
 }
 
-/* Fieldsets for Organization */
-fieldset {
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    background: #f9f9f9;
+.hero-content {
+    text-align: center;
+    padding: 50px;
+    background-color: #f0f0f0;
 }
 
-/* Labels and Inputs */
-label {
-    display: block;
-    font-weight: bold;
-    margin: 10px 0 5px;
+form {
+    margin: 20px 0;
 }
 
 input, select {
-    width: 100%;
+    margin: 10px 0;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1em;
+    width: 100%;
+    max-width: 300px;
 }
 
-/* Submit Button */
 button {
-    width: 100%;
-    padding: 12px;
-    background-color: #28a745;
+    padding: 10px 20px;
+    background-color: #4CAF50;
     color: white;
-    font-size: 1.2em;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
-    transition: 0.3s;
 }
 
 button:hover {
-    background-color: #218838;
+    background-color: #45a049;
 }
+
+#alertMessage {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+#register-form {
+    margin-top: 20px;
+}
+
