@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Farmer Support Platform</title>
     <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
 </head>
 <body>
     <header>
@@ -13,9 +14,9 @@
         </div>
         <nav>
             <ul>
-                <li><a href="#" onclick="loadContent('about'); return false;">About</a></li>
-                <li><a href="#" onclick="loadContent('register'); return false;">Register</a></li>
-                <li><a href="#" onclick="loadContent('contact'); return false;">Contact</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#register">Register</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
     </header>
@@ -27,23 +28,117 @@
         </div>
     </section>
 
-    <section id="content-section">
-        <h2>Welcome to Farm Support!</h2>
-        <p>Click the links above to see dynamic content.</p>
+    <section id="about">
+        <h2>About Us</h2>
+        <p>We help farmers access mechanized support and improve productivity.</p>
+    </section>
+
+    <section id="register">
+        <h2>Farmer Registration</h2>
+        <form id="farmerForm">
+            <h3>Basic Information</h3>
+            <label>Name:</label>
+            <input type="text" id="farmerName" required>
+
+            <label>Phone Number:</label>
+            <input type="tel" id="farmerPhone" required>
+
+            <label>Location:</label>
+            <input type="text" id="farmerLocation" required>
+
+            <label>Age:</label>
+            <input type="number" id="farmerAge" required>
+
+            <label>Gender:</label>
+            <select id="farmerGender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <h3>Farming Information</h3>
+            <label>Farm Size (in acres):</label>
+            <input type="number" id="farmSize" required>
+
+            <label>Farming Type:</label>
+            <select id="farmingType">
+                <option value="Crop Farming">Crop Farming</option>
+                <option value="Livestock Farming">Livestock Farming</option>
+                <option value="Mixed Farming">Mixed Farming</option>
+            </select>
+
+            <label>Main Crops or Livestock:</label>
+            <input type="text" id="mainCropsLivestock" required>
+
+            <label>Years of Farming Experience:</label>
+            <input type="number" id="farmingExperience" required>
+
+            <h3>Mechanization & Support Needs</h3>
+            <label>Equipment Needed:</label>
+            <input type="text" id="equipmentNeeded">
+
+            <label>Needs Irrigation Support?</label>
+            <select id="irrigationSupport">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <label>Storage Facility Required?</label>
+            <select id="storageFacility">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <h3>Financial & Digital Access</h3>
+            <label>Has a Bank Account?</label>
+            <select id="bankAccount">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <label>Needs Agricultural Loan?</label>
+            <select id="agriLoan">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <label>Interested in Farming Training?</label>
+            <select id="trainingInterest">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <label>Has a Smartphone?</label>
+            <select id="smartphoneAccess">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <label>Has Internet Access?</label>
+            <select id="internetAccess">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <button type="submit">Register</button>
+        </form>
+        <div id="alertMessage"></div>
+    </section>
+
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <p>Email: support@farmsupport.com</p>
+        <p>Phone: +123-456-7890</p>
     </section>
 
     <footer>
-        <div class="footer-content">
-            <p>&copy; 2025 Farm Support. All rights reserved.</p>
-        </div>
+        <p>&copy; 2025 Farm Support. All rights reserved.</p>
     </footer>
 
-    <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // Firebase config
         const firebaseConfig = {
             apiKey: "AIzaSyCQhN1TJRcRJ2ef34uCgRtPZON7E4lJj64",
             authDomain: "farmer-data-collection-48d45.firebaseapp.com",
@@ -53,94 +148,46 @@
             appId: "1:755785555291:web:714b31f381697e43238e7e"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Function to load content dynamically
-        window.loadContent = function(page) {
-            const contentSection = document.getElementById('content-section');
+        document.getElementById('farmerForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
 
-            if (page === 'about') {
-                contentSection.innerHTML = `
-                    <h2>About Us</h2>
-                    <p>We help farmers access mechanized support and improve productivity.</p>
-                `;
-            } else if (page === 'register') {
-                contentSection.innerHTML = `
-                    <h2>Farmer Registration</h2>
-                    <form id="farmerForm">
-                        <label>Name:</label>
-                        <input type="text" id="farmerName" required>
+            let farmerID = generateFarmerID();
+            const farmerData = {
+                name: document.getElementById('farmerName').value,
+                phone: document.getElementById('farmerPhone').value,
+                location: document.getElementById('farmerLocation').value,
+                age: document.getElementById('farmerAge').value,
+                gender: document.getElementById('farmerGender').value,
+                farmSize: document.getElementById('farmSize').value,
+                farmingType: document.getElementById('farmingType').value,
+                mainCropsLivestock: document.getElementById('mainCropsLivestock').value,
+                farmingExperience: document.getElementById('farmingExperience').value,
+                equipmentNeeded: document.getElementById('equipmentNeeded').value,
+                irrigationSupport: document.getElementById('irrigationSupport').value,
+                storageFacility: document.getElementById('storageFacility').value,
+                bankAccount: document.getElementById('bankAccount').value,
+                agriLoan: document.getElementById('agriLoan').value,
+                trainingInterest: document.getElementById('trainingInterest').value,
+                smartphoneAccess: document.getElementById('smartphoneAccess').value,
+                internetAccess: document.getElementById('internetAccess').value,
+                farmerID: farmerID
+            };
 
-                        <label>Phone Number:</label>
-                        <input type="tel" id="farmerPhone" required>
-
-                        <label>Location:</label>
-                        <input type="text" id="farmerLocation" required>
-
-                        <label>Farming Type:</label>
-                        <select id="farmingType">
-                            <option value="Crop Farming">Crop Farming</option>
-                            <option value="Livestock Farming">Livestock Farming</option>
-                            <option value="Mixed Farming">Mixed Farming</option>
-                        </select>
-
-                        <label>Mechanization Needs:</label>
-                        <textarea id="mechanizationNeeds"></textarea>
-
-                        <button type="submit">Register</button>
-                    </form>
-                    <div id="alertMessage"></div>
-                `;
-
-                // Attach event listener after loading content
-                document.getElementById('farmerForm').addEventListener('submit', async function(event) {
-                    event.preventDefault();
-
-                    let farmerID = generateFarmerID();
-                    const farmerName = document.getElementById('farmerName').value;
-                    const farmerPhone = document.getElementById('farmerPhone').value;
-                    const farmerLocation = document.getElementById('farmerLocation').value;
-                    const farmingType = document.getElementById('farmingType').value;
-                    const mechanizationNeeds = document.getElementById('mechanizationNeeds').value;
-
-                    try {
-                        await addDoc(collection(db, "farmers"), {
-                            name: farmerName,
-                            phone: farmerPhone,
-                            location: farmerLocation,
-                            farmingType: farmingType,
-                            mechanizationNeeds: mechanizationNeeds,
-                            farmerID: farmerID
-                        });
-
-                        document.getElementById('alertMessage').innerHTML = `Registration successful! Farmer ID: <strong>${farmerID}</strong>`;
-                    } catch (e) {
-                        document.getElementById('alertMessage').innerHTML = `Error: ${e.message}`;
-                    }
-                });
-            } else if (page === 'contact') {
-                contentSection.innerHTML = `
-                    <h2>Contact Us</h2>
-                    <p>Email: support@farmsupport.com</p>
-                    <p>Phone: +123-456-7890</p>
-                `;
+            try {
+                await addDoc(collection(db, "farmers"), farmerData);
+                document.getElementById('alertMessage').innerHTML = `Registration successful! Farmer ID: <strong>${farmerID}</strong>`;
+            } catch (e) {
+                document.getElementById('alertMessage').innerHTML = `Error: ${e.message}`;
             }
-        };
+        });
 
-        // Function to generate an easy-to-remember Farmer ID
         function generateFarmerID() {
             const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-            let id = '';
-            for (let i = 0; i < 6; i++) {
-                id += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return id;
+            return Array(6).fill('').map(() => chars.charAt(Math.random() * chars.length)).join('');
         }
-
-        // Load home content on page load
-        window.onload = () => loadContent('home');
     </script>
 </body>
 </html>
