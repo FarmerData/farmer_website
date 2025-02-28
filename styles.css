@@ -45,7 +45,7 @@ nav ul li a:hover {
 /* Hero Section */
 #hero {
     background-color: #f0f0f0;
-    padding: 60px 20px;
+    padding: 80px 20px; /* Increased padding for better visibility */
     text-align: center;
 }
 
@@ -96,6 +96,28 @@ form button {
 
 form button:hover {
     background-color: #45a049;
+}
+
+/* Add this to your styles.css */
+#register-container {
+    width: 80%; /* Adjust width as needed */
+    max-width: 600px; /* Optional: Set a max width to prevent it from becoming too large */
+    margin: 0 auto; /* Center the form horizontally */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Adjust form inputs for smaller width */
+#register-container input,
+#register-container select,
+#register-container textarea {
+    width: 100%; /* Ensure inputs take up the full width of the container */
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
 /* Footer */
