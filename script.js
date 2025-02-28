@@ -1,17 +1,26 @@
-// Replace with your Firebase config
+// Import the Firebase modules you need
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc } from "firebase/firestore"; // Firestore
+import { getAnalytics } from "firebase/analytics";
+
+// Your Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCQhN1TJRcRJ2ef34uCgRtPZON7E4lJj64",
   authDomain: "farmer-data-collection-48d45.firebaseapp.com",
   projectId: "farmer-data-collection-48d45",
-  storageBucket: "farmer-data-collection-48d45.firebasestorage.app",
+  storageBucket: "farmer-data-collection-48d45.appspot.com", // Fix storageBucket URL
   messagingSenderId: "755785555291",
   appId: "1:755785555291:web:714b31f381697e43238e7e",
   measurementId: "G-T45LN4R8VM"
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const db = getFirestore(app); // Firestore database
+
+export { db, collection, addDoc }; // Export Firestore functions
+
 
 // Handle form submission
 document.getElementById("farmerForm").addEventListener("submit", (event) => {
