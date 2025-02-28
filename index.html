@@ -3,71 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farmer Data Collection</title>
+    <title>Farmer Support Platform</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="form-container">
-        <h1>Farmer Data Collection</h1>
-        <form id="farmerForm">
-            <div class="input-group">
-                <label for="name">Farmer Name</label>
-                <input type="text" id="name" placeholder="Enter Farmer Name" required>
-            </div>
+    <header>
+        <div class="logo">
+            <h1>Farm Support</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#register">Register</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
-            <div class="input-group">
-                <label for="location">Location</label>
-                <input type="text" id="location" placeholder="Enter Location" required>
-            </div>
+    <section id="hero">
+        <div class="hero-content">
+            <h2>Empowering Farmers with Mechanization Support</h2>
+            <p>Register today to receive personalized agricultural assistance.</p>
+        </div>
+    </section>
 
-            <div class="input-group">
-                <label for="farmSize">Farm Size (in acres)</label>
-                <input type="number" id="farmSize" placeholder="Enter Farm Size" required>
-            </div>
+    <section id="register" class="content-section">
+        <div class="form-container">
+            <h2>Farmer Registration</h2>
+            <form id="farmerForm">
+                <div class="input-group">
+                    <label for="name">Farmer Name</label>
+                    <input type="text" id="name" placeholder="Enter Farmer Name" required>
+                </div>
 
-            <div class="input-group">
-                <label for="crop">Crops Grown</label>
-                <input type="text" id="crop" placeholder="Enter Crops Grown" required>
-            </div>
+                <div class="input-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" placeholder="Enter Location" required>
+                </div>
 
-            <div class="input-group">
-                <label for="soilType">Soil Type</label>
-                <select id="soilType" required>
-                    <option value="">Select Soil Type</option>
-                    <option value="Loam">Loam</option>
-                    <option value="Clay">Clay</option>
-                    <option value="Sandy">Sandy</option>
-                    <option value="Peat">Peat</option>
-                </select>
-            </div>
+                <div class="input-group">
+                    <label for="farmSize">Farm Size (acres)</label>
+                    <input type="number" id="farmSize" placeholder="Enter Farm Size" required>
+                </div>
 
-            <div class="input-group">
-                <label for="irrigation">Irrigation Method</label>
-                <select id="irrigation" required>
-                    <option value="">Select Irrigation Type</option>
-                    <option value="Drip">Drip Irrigation</option>
-                    <option value="Sprinkler">Sprinkler</option>
-                    <option value="Borehole">Borehole</option>
-                    <option value="Rain-fed">Rain-fed</option>
-                </select>
-            </div>
+                <div class="input-group">
+                    <label for="crop">Crops Grown</label>
+                    <input type="text" id="crop" placeholder="Enter Crops Grown" required>
+                </div>
 
-            <div class="input-group">
-                <label for="labor">Number of Workers</label>
-                <input type="number" id="labor" placeholder="Enter Number of Workers" required>
-            </div>
+                <div class="input-group">
+                    <label for="soilType">Soil Type</label>
+                    <select id="soilType" required>
+                        <option value="">Select Soil Type</option>
+                        <option value="Loam">Loam</option>
+                        <option value="Clay">Clay</option>
+                        <option value="Sandy">Sandy</option>
+                        <option value="Peat">Peat</option>
+                    </select>
+                </div>
 
-            <div class="input-group">
-                <label for="budget">Budget for Mechanization</label>
-                <input type="number" id="budget" placeholder="Enter Budget for Mechanization" required>
-            </div>
+                <div class="input-group">
+                    <label for="irrigation">Irrigation Method</label>
+                    <select id="irrigation" required>
+                        <option value="">Select Irrigation Type</option>
+                        <option value="Drip">Drip Irrigation</option>
+                        <option value="Sprinkler">Sprinkler</option>
+                        <option value="Borehole">Borehole</option>
+                        <option value="Rain-fed">Rain-fed</option>
+                    </select>
+                </div>
 
-            <button type="submit" class="submit-btn">Submit</button>
-        </form>
+                <div class="input-group">
+                    <label for="labor">Number of Workers</label>
+                    <input type="number" id="labor" placeholder="Enter Number of Workers" required>
+                </div>
 
-        <div id="alertMessage" class="alert"></div>
-        <p id="farmerID"></p>
-    </div>
+                <div class="input-group">
+                    <label for="budget">Budget for Mechanization</label>
+                    <input type="number" id="budget" placeholder="Enter Budget for Mechanization" required>
+                </div>
+
+                <button type="submit" class="submit-btn">Register</button>
+            </form>
+
+            <div id="alertMessage" class="alert"></div>
+            <p id="farmerID"></p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 Farm Support. All rights reserved.</p>
+        </div>
+    </footer>
 
     <!-- Firebase Script -->
     <script type="module">
@@ -127,13 +155,13 @@
                 });
 
                 document.getElementById("farmerID").innerText = `Your Farmer ID: ${farmerID}`;
-                document.getElementById("alertMessage").innerText = `Data submitted successfully! Your ID: ${farmerID}`;
+                document.getElementById("alertMessage").innerText = `Registration successful! Your ID: ${farmerID}`;
                 document.getElementById("alertMessage").classList.add("success");
                 document.getElementById("alertMessage").classList.remove("error");
 
                 document.getElementById("farmerForm").reset();
             } catch (error) {
-                document.getElementById("alertMessage").innerText = "Error submitting data. Please try again.";
+                document.getElementById("alertMessage").innerText = "Error registering. Please try again.";
                 document.getElementById("alertMessage").classList.add("error");
                 document.getElementById("alertMessage").classList.remove("success");
             }
