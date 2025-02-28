@@ -11,14 +11,13 @@
         <div class="logo">
             <h1>Farm Support</h1>
         </div>
-     <nav>
-    <ul>
-        <li><a href="#" onclick="loadContent('about'); return false;">About</a></li>
-        <li><a href="#" onclick="loadContent('register'); return false;">Register</a></li>
-        <li><a href="#" onclick="loadContent('contact'); return false;">Contact</a></li>
-    </ul>
-</nav>
-
+        <nav>
+            <ul>
+                <li><a href="#" onclick="loadContent('about'); return false;">About</a></li>
+                <li><a href="#" onclick="loadContent('register'); return false;">Register</a></li>
+                <li><a href="#" onclick="loadContent('contact'); return false;">Contact</a></li>
+            </ul>
+        </nav>
     </header>
 
     <section id="hero">
@@ -29,7 +28,6 @@
     </section>
 
     <section id="content-section">
-        <!-- Dynamic content will be loaded here -->
         <h2>Welcome to Farm Support!</h2>
         <p>Click the links above to see dynamic content.</p>
     </section>
@@ -42,10 +40,8 @@
 
     <!-- Firebase SDKs -->
     <script type="module">
-        // Import Firebase SDKs
-        import { initializeApp } from "firebase/app";
-        import { getFirestore, collection, addDoc } from "firebase/firestore";
-        import { getAnalytics } from "firebase/analytics";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         // Firebase config
         const firebaseConfig = {
@@ -54,95 +50,97 @@
             projectId: "farmer-data-collection-48d45",
             storageBucket: "farmer-data-collection-48d45.firebasestorage.app",
             messagingSenderId: "755785555291",
-            appId: "1:755785555291:web:714b31f381697e43238e7e",
-            measurementId: "G-T45LN4R8VM"
+            appId: "1:755785555291:web:714b31f381697e43238e7e"
         };
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const analytics = getAnalytics(app);
 
-        // Function to dynamically load content
-function loadContent(page) {
-    const contentSection = document.getElementById('content-section');
+        // Function to load content dynamically
+        window.loadContent = function(page) {
+            const contentSection = document.getElementById('content-section');
 
-    if (page === 'about') {
-        contentSection.innerHTML = `
-            <h2>About Us</h2>
-            <p>We help farmers access mechanized support and improve productivity.</p>
-        `;
-    } else if (page === 'register') {
-        contentSection.innerHTML = `
-            <h2>Farmer Registration</h2>
-            <form id="farmerForm">
-                <label>Name:</label>
-                <input type="text" id="farmerName" required>
+            if (page === 'about') {
+                contentSection.innerHTML = `
+                    <h2>About Us</h2>
+                    <p>We help farmers access mechanized support and improve productivity.</p>
+                `;
+            } else if (page === 'register') {
+                contentSection.innerHTML = `
+                    <h2>Farmer Registration</h2>
+                    <form id="farmerForm">
+                        <label>Name:</label>
+                        <input type="text" id="farmerName" required>
 
-                <label>Phone Number:</label>
-                <input type="tel" id="farmerPhone" required>
+                        <label>Phone Number:</label>
+                        <input type="tel" id="farmerPhone" required>
 
-                <label>Location:</label>
-                <input type="text" id="farmerLocation" required>
+                        <label>Location:</label>
+                        <input type="text" id="farmerLocation" required>
 
-                <label>Farming Type:</label>
-                <select id="farmingType">
-                    <option value="Crop Farming">Crop Farming</option>
-                    <option value="Livestock Farming">Livestock Farming</option>
-                    <option value="Mixed Farming">Mixed Farming</option>
-                </select>
+                        <label>Farming Type:</label>
+                        <select id="farmingType">
+                            <option value="Crop Farming">Crop Farming</option>
+                            <option value="Livestock Farming">Livestock Farming</option>
+                            <option value="Mixed Farming">Mixed Farming</option>
+                        </select>
 
-                <label>Mechanization Needs:</label>
-                <textarea id="mechanizationNeeds"></textarea>
+                        <label>Mechanization Needs:</label>
+                        <textarea id="mechanizationNeeds"></textarea>
 
-                <button type="submit">Register</button>
-            </form>
-            <div id="alertMessage"></div>
-        `;
+                        <button type="submit">Register</button>
+                    </form>
+                    <div id="alertMessage"></div>
+                `;
 
-        document.getElementById('farmerForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
+                // Attach event listener after loading content
+                document.getElementById('farmerForm').addEventListener('submit', async function(event) {
+                    event.preventDefault();
 
-            let farmerID = generateFarmerID();
-            const farmerName = document.getElementById('farmerName').value;
-            const farmerPhone = document.getElementById('farmerPhone').value;
-            const farmerLocation = document.getElementById('farmerLocation').value;
-            const farmingType = document.getElementById('farmingType').value;
-            const mechanizationNeeds = document.getElementById('mechanizationNeeds').value;
+                    let farmerID = generateFarmerID();
+                    const farmerName = document.getElementById('farmerName').value;
+                    const farmerPhone = document.getElementById('farmerPhone').value;
+                    const farmerLocation = document.getElementById('farmerLocation').value;
+                    const farmingType = document.getElementById('farmingType').value;
+                    const mechanizationNeeds = document.getElementById('mechanizationNeeds').value;
 
-            try {
-                await addDoc(collection(db, "farmers"), {
-                    name: farmerName,
-                    phone: farmerPhone,
-                    location: farmerLocation,
-                    farmingType: farmingType,
-                    mechanizationNeeds: mechanizationNeeds,
-                    farmerID: farmerID
+                    try {
+                        await addDoc(collection(db, "farmers"), {
+                            name: farmerName,
+                            phone: farmerPhone,
+                            location: farmerLocation,
+                            farmingType: farmingType,
+                            mechanizationNeeds: mechanizationNeeds,
+                            farmerID: farmerID
+                        });
+
+                        document.getElementById('alertMessage').innerHTML = `Registration successful! Farmer ID: <strong>${farmerID}</strong>`;
+                    } catch (e) {
+                        document.getElementById('alertMessage').innerHTML = `Error: ${e.message}`;
+                    }
                 });
-
-                document.getElementById('alertMessage').innerHTML = `Registration successful! Farmer ID: <strong>${farmerID}</strong>`;
-            } catch (e) {
-                document.getElementById('alertMessage').innerHTML = `Error: ${e.message}`;
+            } else if (page === 'contact') {
+                contentSection.innerHTML = `
+                    <h2>Contact Us</h2>
+                    <p>Email: support@farmsupport.com</p>
+                    <p>Phone: +123-456-7890</p>
+                `;
             }
-        });
-    } else if (page === 'contact') {
-        contentSection.innerHTML = `
-            <h2>Contact Us</h2>
-            <p>Email: support@farmsupport.com</p>
-            <p>Phone: +123-456-7890</p>
-        `;
-    }
-}
-        // Function to generate a unique Farmer ID
+        };
+
+        // Function to generate an easy-to-remember Farmer ID
         function generateFarmerID() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
             let id = '';
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0; i < 6; i++) {
                 id += chars.charAt(Math.floor(Math.random() * chars.length));
             }
             return id;
         }
-        
+
+        // Load home content on page load
+        window.onload = () => loadContent('home');
     </script>
 </body>
 </html>
