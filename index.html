@@ -38,13 +38,11 @@
         </div>
     </footer>
 
-    <!-- Link to the External JavaScript File -->
     <script type="module">
-        // Import Firebase Modules
+        // Firebase Configuration and Functions
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
         import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
-        // Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyCQhN1TJRcRJ2ef34uCgRtPZON7E4lJj64",
             authDomain: "farmer-data-collection-48d45.firebaseapp.com",
@@ -67,7 +65,6 @@
             return id;
         }
 
-        // Wait for Page to Load
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('farmerForm').addEventListener('submit', async function(event) {
                 event.preventDefault(); // Prevents Page Refresh
@@ -213,6 +210,11 @@
                     <p>Phone: +123-456-7890</p>
                 `;
             }
+
+            // Smooth Scroll to the Section
+            document.querySelector(`#${page}`).scrollIntoView({
+                behavior: 'smooth'
+            });
         }
     </script>
 </body>
