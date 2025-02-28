@@ -1,73 +1,76 @@
-// Import the Firebase modules you need
-import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc } from "firebase/firestore"; // Firestore
-import { getAnalytics } from "firebase/analytics";
+// Import Firebase Modules
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
-// Your Firebase configuration
+// Firebase Config
 const firebaseConfig = {
-  apiKey: "AIzaSyCQhN1TJRcRJ2ef34uCgRtPZON7E4lJj64",
-  authDomain: "farmer-data-collection-48d45.firebaseapp.com",
-  projectId: "farmer-data-collection-48d45",
-  storageBucket: "farmer-data-collection-48d45.appspot.com", // Fix storageBucket URL
-  messagingSenderId: "755785555291",
-  appId: "1:755785555291:web:714b31f381697e43238e7e",
-  measurementId: "G-T45LN4R8VM"
+    apiKey: "AIzaSyCQhN1TJRcRJ2ef34uCgRtPZON7E4lJj64",
+    authDomain: "farmer-data-collection-48d45.firebaseapp.com",
+    projectId: "farmer-data-collection-48d45",
+    storageBucket: "farmer-data-collection-48d45.firebasestorage.app",
+    messagingSenderId: "755785555291",
+    appId: "1:755785555291:web:714b31f381697e43238e7e",
+    measurementId: "G-T45LN4R8VM"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const db = getFirestore(app); // Firestore database
+const db = getFirestore(app);
 
-export { db, collection, addDoc }; // Export Firestore functions
-
-
-// Handle form submission
-document.getElementById("farmerForm").addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    // Get input values
-    let name = document.getElementById("name").value;
-    let location = document.getElementById("location").value;
-    let crop = document.getElementById("crop").value;
-
-    // Add to Firestore
-    db.collection("farmers").add({
-        name: name,
-        location: location,
-        crop: crop,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    }).then(() => {
-        alert("Data submitted successfully!");
-        document.getElementById("farmerForm").reset(); // Clear form
-    }).catch((error) => {
-        console.error("Error adding document: ", error);
-    });
-});
-
-// Fetch and display farmers data
-function loadFarmers() {
-    document.getElementById("dataTable").innerHTML = ""; // Clear table before loading
-
-    db.collection("farmers").orderBy("timestamp", "desc").get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            let data = doc.data();
-            let farmerId = doc.id; // Unique Firestore ID
-
-            document.getElementById("dataTable").innerHTML += `
-                <tr>
-                    <td>${farmerId}</td>
-                    <td>${data.name}</td>
-                    <td>${data.location}</td>
-                    <td>${data.crop}</td>
-                </tr>
-            `;
-        });
-    }).catch((error) => {
-        console.error("Error fetching documents: ", error);
-    });
+// Function to Generate Unique Farmer ID
+function generateFarmerID() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let id = '';
+    for (let i = 0; i < 6; i++) {
+        id += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return id;
 }
 
-// Call function to load data when page loads
-window.onload = loadFarmers;
+// Wait for Page to Load
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('farmerForm').addEventListener('submit', async function(event) {
+        event.preventDefault(); // Prevents Page Refresh
 
+        // Collect Form Data
+        let farmerID = generateFarmerID();
+        const farmerName = document.getElementById('farmerName').value;
+        const farmerPhone = document.getElementById('farmerPhone').value;
+        const farmerLocation = document.getElementById('farmerLocation').value;
+        const farmerAge = document.getElementById('farmerAge').value;
+        const farmerGender = document.getElementById('farmerGender').value;
+        const farmSize = document.getElementById('farmSize').value;
+        const farmingType = document.getElementById('farmingType').value;
+        const mainCropsLivestock = document.getElementById('mainCropsLivestock').value;
+        const farmingExperience = document.getElementById('farmingExperience').value;
+
+        try {
+            // Save Data to Firestore
+            await addDoc(collection(db, "farmers"), {
+                farmerID: farmerID,
+                name: farmerName,
+                phone: farmerPhone,
+                location: farmerLocation,
+                age: farmerAge,
+                gender: farmerGender,
+                farmSize: farmSize,
+                farmingType: farmingType,
+                mainCropsLivestock: mainCropsLivestock,
+                farmingExperience: farmingExperience
+            });
+
+            // Success Message
+            document.getElementById('alertMessage').innerHTML = `
+                ✅ Registration Successful! Your Farmer ID: <strong>${farmerID}</strong>
+            `;
+            document.getElementById('alertMessage').style.color = "green";
+
+            // Reset Form
+            document.getElementById('farmerForm').reset();
+        } catch (error) {
+            // Error Handling
+            document.getElementById('alertMessage').innerHTML = `❌ Error: ${error.message}`;
+            document.getElementById('alertMessage').style.color = "red";
+        }
+    });
+});
