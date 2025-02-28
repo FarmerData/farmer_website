@@ -43,6 +43,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const farmingType = document.getElementById('farmingType').value;
         const mainCropsLivestock = document.getElementById('mainCropsLivestock').value;
         const farmingExperience = document.getElementById('farmingExperience').value;
+        const equipmentNeeded = document.getElementById('equipmentNeeded').value;
+        const irrigationSupport = document.getElementById('irrigationSupport').value;
+        const storageFacility = document.getElementById('storageFacility').value;
+        const bankAccount = document.getElementById('bankAccount').value;
+        const momoAccount = document.getElementById('momoAccount').value;    
+        const agriLoan = document.getElementById('agriLoan').value;
+        const trainingInterest = document.getElementById('trainingInterest').value;
+        const smartphoneAccess = document.getElementById('smartphoneAccess').value;
+        const internetAccess = document.getElementById('internetAccess').value;
 
         try {
             // Save Data to Firestore
@@ -56,7 +65,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 farmSize: farmSize,
                 farmingType: farmingType,
                 mainCropsLivestock: mainCropsLivestock,
-                farmingExperience: farmingExperience
+                farmingExperience: farmingExperience,
+                equipmentNeeded: equipmentNeeded,  // Fixed error here
+                irrigationSupport: irrigationSupport,  // Fixed error here
+                storageFacility: storageFacility,  // Fixed error here
+                bankAccount: bankAccount,  // Fixed error here
+                momoAccount: momoAccount,  // Fixed error here
+                agriLoan: agriLoan,  // Fixed error here
+                trainingInterest: trainingInterest,  // Fixed error here
+                smartphoneAccess: smartphoneAccess,  // Fixed error here
+                internetAccess: internetAccess  // Fixed error here
             });
 
             // Success Message
