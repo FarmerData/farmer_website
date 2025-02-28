@@ -13,9 +13,9 @@
         </div>
         <nav>
             <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#register">Register</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="javascript:void(0);" onclick="loadContent('about')">About</a></li>
+                <li><a href="javascript:void(0);" onclick="loadContent('register')">Register</a></li>
+                <li><a href="javascript:void(0);" onclick="loadContent('contact')">Contact</a></li>
             </ul>
         </nav>
     </header>
@@ -27,38 +27,10 @@
         </div>
     </section>
 
-    <section id="about" class="content-section">
-        <div class="about-container">
-            <h2>About Us</h2>
-            <p>At Farm Support, we are dedicated to helping farmers access the resources they need to improve their productivity. Our platform connects farmers with the right mechanization services tailored to their needs, ensuring sustainable and efficient farming practices.</p>
-            <p>We believe that with the right tools, farmers can improve their yields, save time, and boost their income. Our services aim to empower the agricultural community through technology and innovation.</p>
-            <h3>Our Mission</h3>
-            <p>Our mission is to provide farmers with the tools, support, and resources they need to thrive in a modern agricultural landscape. We are committed to improving the efficiency and productivity of farmers while fostering sustainable practices.</p>
-        </div>
-    </section>
-
-    <section id="register" class="content-section">
-        <div class="form-container">
-            <h2>Farmer Registration</h2>
-            <form id="farmerForm">
-                <!-- Registration form inputs go here -->
-                <!-- ... -->
-            </form>
-            <div id="alertMessage" class="alert"></div>
-            <p id="farmerID"></p>
-        </div>
-    </section>
-
-    <section id="contact" class="content-section">
-        <div class="contact-container">
-            <h2>Contact Us</h2>
-            <p>If you have any questions or need assistance, feel free to reach out to us:</p>
-            <ul>
-                <li>Email: support@farmsupport.com</li>
-                <li>Phone: +123-456-7890</li>
-            </ul>
-            <p>We are here to help you with any concerns related to our platform or services.</p>
-        </div>
+    <section id="content-section">
+        <!-- Dynamic content will be loaded here -->
+        <h2>Welcome to Farm Support!</h2>
+        <p>Click the links above to see dynamic content.</p>
     </section>
 
     <footer>
@@ -67,75 +39,132 @@
         </div>
     </footer>
 
-    <!-- Firebase Script -->
+    <!-- Firebase SDKs -->
     <script type="module">
+        // Import Firebase SDKs
+        import { initializeApp } from "firebase/app";
+        import { getFirestore, collection, addDoc } from "firebase/firestore";
+        import { getAnalytics } from "firebase/analytics";
+
+        // Firebase config
         const firebaseConfig = {
             apiKey: "AIzaSyCQhN1TJRcRJ2ef34uCgRtPZON7E4lJj64",
             authDomain: "farmer-data-collection-48d45.firebaseapp.com",
             projectId: "farmer-data-collection-48d45",
-            storageBucket: "farmer-data-collection-48d45.appspot.com",
+            storageBucket: "farmer-data-collection-48d45.firebasestorage.app",
             messagingSenderId: "755785555291",
             appId: "1:755785555291:web:714b31f381697e43238e7e",
             measurementId: "G-T45LN4R8VM"
         };
 
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
-
+        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const analytics = getAnalytics(app);
 
-        function generateID() {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let result = '';
-            const length = 8;
-            for (let i = 0; i < length; i++) {
-                const randomIndex = Math.floor(Math.random() * characters.length);
-                result += characters[randomIndex];
+        // Function to load content dynamically
+        function loadContent(page) {
+            const contentSection = document.getElementById('content-section');
+            
+            if (page === 'about') {
+                contentSection.innerHTML = `
+                    <h2>About Us</h2>
+                    <p>At Farm Support, we are dedicated to helping farmers access the resources they need to improve their productivity. Our platform connects farmers with the right mechanization services tailored to their needs, ensuring sustainable and efficient farming practices.</p>
+                    <h3>Our Mission</h3>
+                    <p>Our mission is to provide farmers with the tools, support, and resources they need to thrive in a modern agricultural landscape. We are committed to improving the efficiency and productivity of farmers while fostering sustainable practices.</p>
+                `;
+            } else if (page === 'register') {
+                contentSection.innerHTML = `
+                    <h2>Farmer Registration</h2>
+                    <p>Please fill in the form below to register:</p>
+                    <form id="farmerForm">
+                        <div class="form-group">
+                            <label for="farmerName">Name:</label>
+                            <input type="text" id="farmerName" required placeholder="Enter your name">
+                        </div>
+                        <div class="form-group">
+                            <label for="farmerPhone">Phone Number:</label>
+                            <input type="tel" id="farmerPhone" required placeholder="Enter your phone number">
+                        </div>
+                        <div class="form-group">
+                            <label for="farmerLocation">Location:</label>
+                            <input type="text" id="farmerLocation" required placeholder="Enter your location">
+                        </div>
+                        <div class="form-group">
+                            <label for="farmingType">Farming Type:</label>
+                            <select id="farmingType" required>
+                                <option value="Crop Farming">Crop Farming</option>
+                                <option value="Livestock Farming">Livestock Farming</option>
+                                <option value="Mixed Farming">Mixed Farming</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cropType">Main Crop Type:</label>
+                            <input type="text" id="cropType" placeholder="Enter the type of crop" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="mechanizationNeeds">Mechanization Needs:</label>
+                            <textarea id="mechanizationNeeds" placeholder="Describe mechanization needs" required></textarea>
+                        </div>
+                        <button type="submit">Register</button>
+                    </form>
+                    <div id="alertMessage" class="alert"></div>
+                    <p id="farmerID"></p>
+                `;
+                
+                // Handle form submission and Firebase
+                document.getElementById('farmerForm').addEventListener('submit', async function(event) {
+                    event.preventDefault();
+                    
+                    let farmerID = generateFarmerID();
+                    const farmerName = document.getElementById('farmerName').value;
+                    const farmerPhone = document.getElementById('farmerPhone').value;
+                    const farmerLocation = document.getElementById('farmerLocation').value;
+                    const farmingType = document.getElementById('farmingType').value;
+                    const cropType = document.getElementById('cropType').value;
+                    const mechanizationNeeds = document.getElementById('mechanizationNeeds').value;
+
+                    try {
+                        // Add the farmer data to Firestore
+                        const docRef = await addDoc(collection(db, "farmers"), {
+                            name: farmerName,
+                            phone: farmerPhone,
+                            location: farmerLocation,
+                            farmingType: farmingType,
+                            cropType: cropType,
+                            mechanizationNeeds: mechanizationNeeds,
+                            farmerID: farmerID,
+                            timestamp: new Date()
+                        });
+                        
+                        document.getElementById('alertMessage').innerHTML = 'Registration successful!';
+                        document.getElementById('farmerID').innerHTML = `Your Farmer ID: ${farmerID}`;
+                    } catch (e) {
+                        document.getElementById('alertMessage').innerHTML = `Error: ${e.message}`;
+                    }
+                });
+            } else if (page === 'contact') {
+                contentSection.innerHTML = `
+                    <h2>Contact Us</h2>
+                    <p>If you have any questions, feel free to contact us at:</p>
+                    <ul>
+                        <li>Email: support@farmsupport.com</li>
+                        <li>Phone: +123-456-7890</li>
+                    </ul>
+                    <p>We are here to help you with any concerns related to our platform or services.</p>
+                `;
             }
-            return result;
         }
 
-        document.getElementById("farmerForm").addEventListener("submit", async (event) => {
-            event.preventDefault();
-
-            let name = document.getElementById("name").value;
-            let location = document.getElementById("location").value;
-            let farmSize = document.getElementById("farmSize").value;
-            let crop = document.getElementById("crop").value;
-            let soilType = document.getElementById("soilType").value;
-            let irrigation = document.getElementById("irrigation").value;
-            let labor = document.getElementById("labor").value;
-            let budget = document.getElementById("budget").value;
-
-            try {
-                const farmerID = generateID();
-
-                await addDoc(collection(db, "farmers"), {
-                    id: farmerID,
-                    name: name,
-                    location: location,
-                    farmSize: farmSize,
-                    crop: crop,
-                    soilType: soilType,
-                    irrigation: irrigation,
-                    labor: labor,
-                    budget: budget,
-                    timestamp: new Date()
-                });
-
-                document.getElementById("farmerID").innerText = `Your Farmer ID: ${farmerID}`;
-                document.getElementById("alertMessage").innerText = `Registration successful! Your ID: ${farmerID}`;
-                document.getElementById("alertMessage").classList.add("success");
-                document.getElementById("alertMessage").classList.remove("error");
-
-                document.getElementById("farmerForm").reset();
-            } catch (error) {
-                document.getElementById("alertMessage").innerText = "Error registering. Please try again.";
-                document.getElementById("alertMessage").classList.add("error");
-                document.getElementById("alertMessage").classList.remove("success");
+        // Function to generate a unique Farmer ID
+        function generateFarmerID() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let id = '';
+            for (let i = 0; i < 8; i++) {
+                id += chars.charAt(Math.floor(Math.random() * chars.length));
             }
-        });
+            return id;
+        }
     </script>
 </body>
 </html>
